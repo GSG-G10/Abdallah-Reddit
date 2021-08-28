@@ -16,7 +16,7 @@ CREATE TABLE posts(
     title VARCHAR(255) NOT NULL,
     body text NOT NULL,
     likes INTEGER NOT NULL DEFAULT 0,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP NOT NULL
 );
 
@@ -24,8 +24,8 @@ CREATE TABLE comments(
     id SERIAL PRIMARY KEY,
     body text NOT NULL,
     likes INTEGER NOT NULL DEFAULT 0,
-    user_id INTEGER REFERENCES users(id),
-    post_id INTEGER REFERENCES posts(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
     created_at TIMESTAMP NOT NULL
 );
 
