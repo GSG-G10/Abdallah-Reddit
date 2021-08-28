@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js",
+    "test": "jest",
+    "dev": "nodemon server/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,13 @@
   },
   "homepage": "https://github.com/GSG-G10/Abdallah-Reddit#readme",
   "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "env2": "^2.2.2",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^27.1.0",
+    "nodemon": "^2.0.12"
   }
 }
