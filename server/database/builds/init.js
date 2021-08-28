@@ -1,4 +1,3 @@
-
 const { join } = require('path');
 const { readFileSync } = require('fs');
 const connection = require('../config/connection');
