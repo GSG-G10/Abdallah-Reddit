@@ -1,11 +1,13 @@
 const { getCommentsQuery, addCommentQuery, likeCommentQuery } = require('../database/queries/CommentsQueries');
 
 const index = (req, res) => {
-  const { postId } = req.body;
+  const { postId } = req.params;
 
   getCommentsQuery(postId)
     .then((data) => data.rows)
-    .then((comments) => res.json(comments))
+    .then((comments) => {
+      res.json(comments);
+    })
     // handle error
     .catch();
 };
