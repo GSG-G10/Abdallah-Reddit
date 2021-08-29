@@ -82,7 +82,7 @@ const signUp = (req, res) => {
 };
 
 const logOut = (req, res) => {
-  req.removeCookie('accessToken');
+  res.clearCookie('accessToken');
   res.redirect('/');
 };
 
