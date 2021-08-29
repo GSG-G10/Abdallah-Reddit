@@ -1,7 +1,12 @@
 const connection = require('../config/connection');
 
 const getCommentsQuery = (postId) => connection.query(
-  'SELECT c.id, c.body, c.likes, c.created_at, u.name, u.username FROM comments c INNER JOIN users u ON c.user_id = u.id WHERE c.post_id = $1',
+  `SELECT c.id, c.body, c.likes, c.created_at, u.name, u.username 
+    FROM
+     comments c 
+     INNER JOIN users u 
+     ON c.user_id = u.id 
+     WHERE c.post_id = $1`,
   [postId],
 );
 
