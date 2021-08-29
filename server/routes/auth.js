@@ -2,8 +2,11 @@ const router = require('express').Router();
 
 const AuthController = require('../controllers/AuthController');
 
-router.post('/login', AuthController.logIn);
-router.post('/signup', AuthController.signUp);
-router.post('/logout', AuthController.logOut);
+const isAuth = require('../middelwares/isAuth');
+const isNotAuth = require('../middelwares/isNotAuth');
+
+router.post('/login', isNotAuth, AuthController.logIn);
+router.post('/signup', isNotAuth, AuthController.signUp);
+router.post('/logout', isAuth, AuthController.logOut);
 
 module.exports = router;
