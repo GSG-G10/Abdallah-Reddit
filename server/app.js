@@ -15,6 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(compresion());
 app.use(express.static(join(__dirname, '..', 'public')));
 
-// app.use(router);
+app.use(router);
 
 module.exports = app;

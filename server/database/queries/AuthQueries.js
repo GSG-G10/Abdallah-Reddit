@@ -5,7 +5,7 @@ const loginQuery = (username) => connection.query('SELECT * FROM users WHERE use
 const signUpQuery = ({
   name, username, email, password,
 }) => connection.query(
-  'INSERT INTO users (name, username,email ,password) VALUES ($1, $2, $3, $4)',
+  'INSERT INTO users (name, username,email ,password) VALUES ($1, $2, $3, $4) RETURNING *',
   [name, username, email, password],
 );
 

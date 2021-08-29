@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "test": "jest",
-    "dev": "nodemon server/index.js"
+    "start": "NODE_ENV=production node server/index.js",
+    "test": "NODE_ENV=test jest",
+    "dev": "NODE_ENV=development nodemon server/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,10 +19,12 @@
   },
   "homepage": "https://github.com/GSG-G10/Abdallah-Reddit#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "env2": "^2.2.2",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1"
   },
   "devDependencies": {
