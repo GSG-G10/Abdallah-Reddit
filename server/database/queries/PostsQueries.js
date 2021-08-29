@@ -1,7 +1,7 @@
 const connection = require('../config/connection');
 
 const getPostsQuery = () => connection.query(
-  'SELECT p.title, p.body, p.created_at, u.name, u.username FROM posts p INNER JOIN users u ON u.id = p.user_id ORDER BY p.likes DESC',
+  'SELECT p.id, p.title, p.body, p.likes, p.created_at, u.name, u.username FROM posts p INNER JOIN users u ON u.id = p.user_id ORDER BY p.likes DESC',
 );
 
 const addPostQuery = ({
