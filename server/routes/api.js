@@ -3,7 +3,7 @@ const router = require('express').Router();
 const PostsController = require('../controllers/PostsController');
 const CommentsController = require('../controllers/CommentsController');
 
-const isAuth = require('../middelwares/isAuth');
+const isAuth = require('../middlewares/isAuth');
 
 router.get('/posts', PostsController.index);
 router.post('/posts', isAuth, PostsController.store);

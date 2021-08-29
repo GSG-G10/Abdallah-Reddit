@@ -43,6 +43,7 @@ const logIn = (req, res) => {
 
 const signUp = (req, res) => {
   const {
+    // eslint-disable-next-line no-unused-vars
     username, password, comfirmedPassword, email, name,
   } = req.body;
 
