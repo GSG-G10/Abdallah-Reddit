@@ -1,4 +1,5 @@
 const { getCommentsQuery, addCommentQuery, likeCommentQuery } = require('../database/queries/CommentsQueries');
+const commentSchema = require('../schemas/addCommentSchema');
 
 const index = (req, res) => {
   const { postId } = req.params;
@@ -8,24 +9,41 @@ const index = (req, res) => {
     .then((comments) => {
       res.json(comments);
     })
-    // handle error
-    .catch();
+    .catch(() => {
+      res.status(500).json(
+        {
+          msg: 'Internal Server Error',
+          status: 500,
+        },
+      );
+    });
 };
 
 const store = (req, res) => {
   const { body, postId, createdAt } = req.body;
-  // const userId = req.user.id;
-  const userId = 1;
+  const userId = req.user.id;
 
   // validation
-
-  addCommentQuery({
-    body, userId, postId, createdAt,
-  })
+  commentSchema.validateAsync({ body, postId, createdAt })
+    .catch((err) => {
+    // validation error
+      res.status(422).json({
+        msg: err.details[0].message,
+        status: 422,
+      });
+    }).then(() => addCommentQuery({
+      body, userId, postId, createdAt,
+    }))
     .then((data) => data.rows[0])
     .then((comment) => res.json(comment))
-    // handel error
-    .catch();
+    .catch(() => {
+      res.status(500).json(
+        {
+          msg: 'Internal Server Error',
+          status: 500,
+        },
+      );
+    });
 };
 
 const like = (req, res) => {
@@ -33,9 +51,24 @@ const like = (req, res) => {
 
   likeCommentQuery(postId)
     .then((data) => data.rows[0])
-    .then((comment) => res.json(comment))
-    // handel error
-    .catch();
+    .then((comment) => {
+      if (comment) {
+        res.json(comment);
+      } else {
+        res.status(404).json({
+          msg: 'post not found !',
+          status: 404,
+        });
+      }
+    })
+    .catch(() => {
+      res.status(500).json(
+        {
+          msg: 'Internal Server Error',
+          status: 500,
+        },
+      );
+    });
 };
 
 module.exports = {
