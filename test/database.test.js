@@ -77,19 +77,21 @@ describe('testing comments queries', () => {
 
 describe('testing auth queries', () => {
   test('login query', async () => {
-    const data = await loginQuery('aaamra');
-    expect(data.rows[0].username).toBe('aaamra');
+    loginQuery('aaamra').then((data) => {
+      expect(data.rows[0].username).toBe('aaamra');
+    });
   });
 
-  test('signup query', async () => {
+  test('signup query', () => {
     const expectedUser = {
       name: 'Abdallah',
       username: 'aaamra2',
       email: 'e@asd.com',
       password: 'test password',
     };
-    const data = await signUpQuery(expectedUser);
-    expect(data.rows[0].username).toBe(expectedUser.username);
+    return signUpQuery(expectedUser).then((data) => {
+      expect(data.rows[0].username).toBe(expectedUser.username);
+    });
   });
 });
 
