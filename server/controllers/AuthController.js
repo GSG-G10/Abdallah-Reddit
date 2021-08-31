@@ -10,6 +10,10 @@ const logIn = (req, res) => {
   loginQuery(username)
     .then((data) => data.rows[0])
     .then((user) => {
+      if (!user) {
+        res.status(401).json({ msg: 'Your Credintals does not match our records' });
+      }
+
       compare(password, user.password, (error, result) => {
         if (error) {
           // show error

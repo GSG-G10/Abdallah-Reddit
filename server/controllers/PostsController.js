@@ -2,29 +2,56 @@ const {
   getPostsQuery, addPostQuery, deletePostQuery, likePostQuery,
 } = require('../database/queries/PostsQueries');
 
+const postSchema = require('../schemas/addPostSchema');
+
 const index = (req, res) => {
   getPostsQuery()
     .then((data) => {
       res.json(data.rows);
     })
-    .catch();
+    .catch(() => {
+      res.status(500).json(
+        {
+          msg: 'Internal Server Error',
+          status: 500,
+        },
+      );
+    });
 };
 
 const store = (req, res) => {
-  // const { id } = req.user;
-  const userId = 1;
+  const userId = req.user.id;
 
   const { title, body, createdAt } = req.body;
 
-  // server validation
-
-  addPostQuery({
-    title, body, userId, createdAt,
-  })
-    .then((data) => {
-      res.json(data.rows[0]);
+  // validate post
+  postSchema.validateAsync({ title, body, createdAt })
+    .catch((err) => {
+      // validation error
+      res.status(422).json({
+        msg: err.details[0].message,
+        status: 422,
+      });
     })
-    .catch();
+    // add post query
+    .then(() => addPostQuery({
+      title, body, userId, createdAt,
+    }))
+    .then((data) => {
+      res.json({
+        data: data.rows[0],
+        msg: 'post created successfully !',
+        status: 200,
+      });
+    })
+    .catch(() => {
+      res.status(500).json(
+        {
+          msg: 'Internal Server Error',
+          status: 500,
+        },
+      );
+    });
 };
 
 const like = (req, res) => {
@@ -32,10 +59,26 @@ const like = (req, res) => {
 
   likePostQuery(postId)
     .then((data) => {
-      res.json(data);
+      if (data.rows[0]) {
+        res.json({
+          data: data.rows[0],
+          msg: 'like sent successfully !',
+          status: 200,
+        });
+      } else {
+        res.status(404).json({
+          msg: 'post not found !',
+          status: 404,
+        });
+      }
     })
-    .catch((err) => {
-      res.json(err);
+    .catch(() => {
+      res.status(500).json(
+        {
+          msg: 'Internal Server Error',
+          status: 500,
+        },
+      );
     });
 };
 
@@ -44,10 +87,26 @@ const destroy = (req, res) => {
 
   deletePostQuery(postId)
     .then((data) => {
-      res.json(data);
+      if (data.rows[0]) {
+        res.json({
+          data: data.rows[0],
+          msg: 'post deleted successfully !',
+          status: 200,
+        });
+      } else {
+        res.status(404).json({
+          msg: 'post not found !',
+          status: 404,
+        });
+      }
     })
-    .catch((err) => {
-      res.json(err);
+    .catch(() => {
+      res.status(500).json(
+        {
+          msg: 'Internal Server Error',
+          status: 500,
+        },
+      );
     });
 };
 
