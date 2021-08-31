@@ -17,9 +17,9 @@ const addCommentQuery = ({
   [body, userId, postId, createdAt],
 );
 
-const likeCommentQuery = (postId) => connection.query(
-  'UPDATE comments SET likes = likes + 1 WHERE post_id = $1 RETURNING *',
-  [postId],
+const likeCommentQuery = (commentId) => connection.query(
+  'UPDATE comments SET likes = likes + 1 WHERE id = $1 RETURNING *',
+  [commentId],
 );
 
 module.exports = {
