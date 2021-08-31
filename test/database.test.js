@@ -1,15 +1,25 @@
 /* eslint-disable no-undef */
 
-const postsQueries = require('../server/database/queries/PostsQueries');
+const {
+  getPostsQuery,
+  addPostQuery,
+  likePostQuery,
+} = require('../server/database/queries/PostsQueries');
+const {
+  getCommentsQuery,
+  addCommentQuery,
+  likeCommentQuery,
+} = require('../server/database/queries/CommentsQueries');
+
+const { loginQuery, signUpQuery } = require('../server/database/queries/AuthQueries');
+
 const dbBuild = require('../server/database/builds/init');
 const connection = require('../server/database/config/connection');
-
-jest.setTimeout(100000);
 
 beforeAll(() => dbBuild());
 
 describe('testing posts queries', () => {
-  test('get all posts', () => {
+  test('get all posts', async () => {
     const expectedPosts = [
       {
         id: 1,
@@ -21,40 +31,53 @@ describe('testing posts queries', () => {
       },
     ];
 
-    postsQueries.getPostsQuery()
-      .then((data) => data.rows)
-      .then((posts) => {
-        expect(posts[0].title).toBe(expectedPosts[0].title);
-      })
-      .catch((err) => console.log(err));
+    const data = await getPostsQuery();
+    expect(data.rows[0].title).toBe(expectedPosts[0].title);
   });
 
-  test('create post', () => {
+  test('create post', async () => {
     const insertedPost = {
       title: 'post title',
       body: 'post body',
       userId: 1,
       createdAt: '2021-08-31T05:55:09.743Z',
     };
-    postsQueries.addPostQuery(insertedPost)
-      .then((data) => {
-        expect(data.rows[0].title).toBe(insertedPost.title);
-      })
-      .catch((err) => console.log(err));
+    const data = await addPostQuery(insertedPost);
+    expect(data.rows[0].title).toBe(insertedPost.title);
   });
 
-  test('like post', () => {
-    postsQueries.likePostQuery(1)
-      .then((data) => {
-        expect(data.rows[0].likes).toBe(1);
-      })
-      .catch((err) => console.log(err));
+  test('like post', async () => {
+    const data = await likePostQuery(1);
+    expect(data.rows[0].likes).toBe(1);
   });
 });
 
 describe('testing comments queries', () => {
-  test('asddasds', () => {
-    expect(1).toBe(1);
+  test('show post comments query', async () => {
+    const data = await getCommentsQuery(1);
+    expect(data.rows[0].body).toBe('text comment');
+  });
+
+  test('add post comment query', async () => {
+    const expected = {
+      body: 'test body',
+      userId: 1,
+      postId: 1,
+      createdAt: '2021-08-31T05:55:09.743Z',
+    };
+    const data = await addCommentQuery(expected);
+    expect(data.rows[0].body).toBe(expected.body);
+  });
+
+  test('like comment', async () => {
+    const data = await likeCommentQuery(1);
+    expect(data.rows[0].likes).toBe(1);
+  });
+});
+
+describe('testing auth queries', () => {
+  test('login query', async () => {
+
   });
 });
 
