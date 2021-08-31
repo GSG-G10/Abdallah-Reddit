@@ -31,8 +31,9 @@ describe('testing posts queries', () => {
       },
     ];
 
-    const data = await getPostsQuery();
-    expect(data.rows[0].title).toBe(expectedPosts[0].title);
+    return getPostsQuery().then((data) => {
+      expect(data.rows[0].title).toBe(expectedPosts[0].title);
+    });
   });
 
   test('create post', async () => {
@@ -42,22 +43,20 @@ describe('testing posts queries', () => {
       userId: 1,
       createdAt: '2021-08-31T05:55:09.743Z',
     };
-    const data = await addPostQuery(insertedPost);
-    expect(data.rows[0].title).toBe(insertedPost.title);
+    return addPostQuery(insertedPost).then((data) => {
+      expect(data.rows[0].title).toBe(insertedPost.title);
+    });
   });
 
-  test('like post', async () => {
-    const data = await likePostQuery(1);
+  test('like post', () => likePostQuery(1).then((data) => {
     expect(data.rows[0].likes).toBe(1);
-  });
+  }));
 });
 
 describe('testing comments queries', () => {
-  test('show post comments query', () => {
-    getCommentsQuery(1).then((data) => {
-      expect(data.rows[0].body).toBe('text comment');
-    });
-  });
+  test('show post comments query', () => getCommentsQuery(1).then((data) => {
+    expect(data.rows[0].body).toBe('text comment');
+  }));
 
   test('add post comment query', () => {
     const expected = {
