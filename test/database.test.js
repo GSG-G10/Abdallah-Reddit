@@ -53,34 +53,34 @@ describe('testing posts queries', () => {
 });
 
 describe('testing comments queries', () => {
-  test('show post comments query', async () => {
-    const data = await getCommentsQuery(1);
-    expect(data.rows[0].body).toBe('text comment');
+  test('show post comments query', () => {
+    getCommentsQuery(1).then((data) => {
+      expect(data.rows[0].body).toBe('text comment');
+    });
   });
 
-  test('add post comment query', async () => {
+  test('add post comment query', () => {
     const expected = {
       body: 'test body',
       userId: 1,
       postId: 1,
       createdAt: '2021-08-31T05:55:09.743Z',
     };
-    const data = await addCommentQuery(expected);
-    expect(data.rows[0].body).toBe(expected.body);
+    return addCommentQuery(expected).then((data) => {
+      expect(data.rows[0].body).toBe(expected.body);
+    });
   });
 
-  test('like comment', async () => {
-    const data = await likeCommentQuery(1);
-    expect(data.rows[0].likes).toBe(1);
-  });
+  test('like comment', () => likeCommentQuery(1)
+    .then((data) => {
+      expect(data.rows[0].likes).toBe(1);
+    }));
 });
 
 describe('testing auth queries', () => {
-  test('login query', async () => {
-    loginQuery('aaamra').then((data) => {
-      expect(data.rows[0].username).toBe('aaamra');
-    });
-  });
+  test('login query', () => loginQuery('aaamra').then((data) => {
+    expect(data.rows[0].username).toBe('aaamra');
+  }));
 
   test('signup query', () => {
     const expectedUser = {
