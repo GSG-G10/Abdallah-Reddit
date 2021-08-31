@@ -77,7 +77,8 @@ describe('testing comments queries', () => {
 
 describe('testing auth queries', () => {
   test('login query', async () => {
-
+    const data = await loginQuery('aaamra');
+    expect(data.rows[0].username).toBe('aaamra');
   });
 });
 
