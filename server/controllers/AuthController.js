@@ -2,17 +2,36 @@ const { hash, compare } = require('bcryptjs');
 const { sign } = require('jsonwebtoken');
 const { loginQuery, signUpQuery } = require('../database/queries/AuthQueries');
 
+const signUpSchema = require('../schemas/signUpSchema');
+const signInSchema = require('../schemas/signInSchema');
+
 const logIn = (req, res) => {
   const { username, password } = req.body;
 
-  // validation
+  const { error } = signInSchema.validate({ username, password });
+
+  if (error) {
+    res.status(422).json({
+      msg: error.details[0].message,
+      status: 422,
+    });
+  }
 
   loginQuery(username)
     .then((data) => data.rows[0])
     .then((user) => {
-      compare(password, user.password, (error, result) => {
-        if (error) {
-          // show error
+      if (!user) {
+        res.status(401).json({ msg: 'Your Credintals does not match our records' });
+      }
+
+      compare(password, user.password, (err, result) => {
+        if (err) {
+          res.status(500).json(
+            {
+              msg: 'Internal Server Error',
+              status: 500,
+            },
+          );
         }
 
         if (!result) {
@@ -26,9 +45,14 @@ const logIn = (req, res) => {
               email: user.email,
             },
             process.env.SECRET,
-            (err, token) => {
-              if (err) {
-                // show error
+            (errr, token) => {
+              if (errr) {
+                res.status(500).json(
+                  {
+                    msg: 'Internal Server Error',
+                    status: 500,
+                  },
+                );
               }
 
               res.cookie('accessToken', token).redirect('/');
@@ -37,25 +61,45 @@ const logIn = (req, res) => {
         }
       });
     })
-    // handel catch
-    .catch();
+    .catch(() => {
+      res.status(500).json(
+        {
+          msg: 'Internal Server Error',
+          status: 500,
+        },
+      );
+    });
 };
 
 const signUp = (req, res) => {
   const {
-    // eslint-disable-next-line no-unused-vars
-    username, password, comfirmedPassword, email, name,
+    username, password, confirmedPassword, email, name,
   } = req.body;
 
-  // validation
+  const { error } = signUpSchema.validate({
+    username, password, confirmedPassword, email, name,
+  });
 
-  hash(password, 10, (error, hashedPassword) => {
-    if (error) {
-      // show error
+  if (error) {
+    // validattion error
+    res.status(422).json({
+      msg: error.details[0].message,
+      status: 422,
+    });
+  }
+
+  hash(password, 10, (err, hashedPassword) => {
+    if (err) {
+      res.status(500).json(
+        {
+          msg: 'Internal Server Error',
+          status: 500,
+        },
+      );
     }
 
     signUpQuery({
-      name, username, email, hashedPassword,
+      name, username, email, password: hashedPassword,
     })
       .then((data) => data.rows[0])
       .then((user) => {
@@ -67,22 +111,33 @@ const signUp = (req, res) => {
             email: user.email,
           },
           process.env.SECRET,
-          (err, token) => {
-            if (err) {
-              // show error
+          (errr, token) => {
+            if (errr) {
+              res.status(500).json(
+                {
+                  msg: 'Internal Server Error',
+                  status: 500,
+                },
+              );
             }
 
             res.cookie('accessToken', token).redirect('/');
           },
         );
       })
-      // catch error
-      .catch();
+      .catch((er) => {
+        res.status(500).json(
+          {
+            msg: er,
+            status: 500,
+          },
+        );
+      });
   });
 };
 
 const logOut = (req, res) => {
-  req.removeCookie('accessToken');
+  res.clearCookie('accessToken');
   res.redirect('/');
 };
 

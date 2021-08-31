@@ -12,12 +12,12 @@ const addPostQuery = ({
 );
 
 const likePostQuery = (postId) => connection.query(
-  'UPDATE posts SET likes = likes + 1 WHERE id = $1',
+  'UPDATE posts SET likes = likes + 1 WHERE id = $1 RETURNING *',
   [postId],
 );
 
 const deletePostQuery = (postId) => connection.query(
-  'DELETE FROM posts WHERE id = $1',
+  'DELETE FROM posts WHERE id = $1 RETURNING *',
   [postId],
 );
 
