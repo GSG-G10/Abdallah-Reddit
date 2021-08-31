@@ -19,7 +19,7 @@ const connection = require('../server/database/config/connection');
 beforeAll(() => dbBuild());
 
 describe('testing posts queries', () => {
-  test('get all posts', async () => {
+  test('get all posts', () => {
     const expectedPosts = [
       {
         id: 1,
@@ -36,7 +36,7 @@ describe('testing posts queries', () => {
     });
   });
 
-  test('create post', async () => {
+  test('create post', () => {
     const insertedPost = {
       title: 'post title',
       body: 'post body',
