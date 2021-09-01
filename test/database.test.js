@@ -19,7 +19,7 @@ const connection = require('../server/database/config/connection');
 beforeAll(() => dbBuild());
 
 describe('testing posts queries', () => {
-  test('get all posts', async () => {
+  test('get all posts', () => {
     const expectedPosts = [
       {
         id: 1,
@@ -31,65 +31,66 @@ describe('testing posts queries', () => {
       },
     ];
 
-    const data = await getPostsQuery();
-    expect(data.rows[0].title).toBe(expectedPosts[0].title);
+    return getPostsQuery().then((data) => {
+      expect(data.rows[0].title).toBe(expectedPosts[0].title);
+    });
   });
 
-  test('create post', async () => {
+  test('create post', () => {
     const insertedPost = {
       title: 'post title',
       body: 'post body',
       userId: 1,
       createdAt: '2021-08-31T05:55:09.743Z',
     };
-    const data = await addPostQuery(insertedPost);
-    expect(data.rows[0].title).toBe(insertedPost.title);
+    return addPostQuery(insertedPost).then((data) => {
+      expect(data.rows[0].title).toBe(insertedPost.title);
+    });
   });
 
-  test('like post', async () => {
-    const data = await likePostQuery(1);
+  test('like post', () => likePostQuery(1).then((data) => {
     expect(data.rows[0].likes).toBe(1);
-  });
+  }));
 });
 
 describe('testing comments queries', () => {
-  test('show post comments query', async () => {
-    const data = await getCommentsQuery(1);
+  test('show post comments query', () => getCommentsQuery(1).then((data) => {
     expect(data.rows[0].body).toBe('text comment');
-  });
+  }));
 
-  test('add post comment query', async () => {
+  test('add post comment query', () => {
     const expected = {
       body: 'test body',
       userId: 1,
       postId: 1,
       createdAt: '2021-08-31T05:55:09.743Z',
     };
-    const data = await addCommentQuery(expected);
-    expect(data.rows[0].body).toBe(expected.body);
+    return addCommentQuery(expected).then((data) => {
+      expect(data.rows[0].body).toBe(expected.body);
+    });
   });
 
-  test('like comment', async () => {
-    const data = await likeCommentQuery(1);
-    expect(data.rows[0].likes).toBe(1);
-  });
+  test('like comment', () => likeCommentQuery(1)
+    .then((data) => {
+      expect(data.rows[0].likes).toBe(1);
+    }));
 });
 
 describe('testing auth queries', () => {
-  test('login query', async () => {
-    const data = await loginQuery('aaamra');
+  test('login query', () => loginQuery('aaamra').then((data) => {
     expect(data.rows[0].username).toBe('aaamra');
-  });
+  }));
 
-  test('signup query', async () => {
+  test('signup query', () => {
     const expectedUser = {
       name: 'Abdallah',
       username: 'aaamra2',
       email: 'e@asd.com',
       password: 'test password',
     };
-    const data = await signUpQuery(expectedUser);
-    expect(data.rows[0].username).toBe(expectedUser.username);
+    return signUpQuery(expectedUser).then((data) => {
+      expect(data.rows[0].username).toBe(expectedUser.username);
+    });
   });
 });
 
