@@ -6,7 +6,7 @@ const isAuth = (req, res, next) => {
   if (accessToken) {
     verify(accessToken, process.env.SECRET, (err, user) => {
       if (err) {
-        req.removeCookie('accessToken');
+        res.clearCookie('accessToken');
         res.redirect('/login');
       }
 
