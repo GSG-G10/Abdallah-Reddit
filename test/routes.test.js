@@ -26,6 +26,27 @@ describe('auth end points', () => {
         return done();
       });
   });
+
+  test('test login endpoint', (done) => {
+    request(app)
+      .post('/auth/signup')
+      .send({
+        username: 'aaamra1',
+        password: 'helloworld',
+        email: 'asd@asd.com',
+        comfirmedPassword: 'helloworld',
+        name: 'Abdallah',
+      })
+      .expect(302)
+      .expect('location', '/')
+      .expect((response) => expect(response.header['set-cookie'][0].split('=')[0]).toBe('accessToken'))
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        return done();
+      });
+  });
 });
 
 afterAll(() => connection.end());
