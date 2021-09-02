@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Reddit</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/style.css">
 </head>
@@ -37,6 +37,34 @@
             </div>
         </div>
     </header>
+
+    <section>
+        <div id="new-post-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h2>Add New Post</h2>
+                  <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                <form action="/post/create" method="POST">
+    
+                    <label for="">Title</label>
+                    <input type="text" name="title" placeholder="title">
+    
+                    <label>Post</label>
+                    <textarea name="body" id="" cols="30" rows="10"></textarea>
+        
+                    <label for="">Image</label>
+                    <input type="text" name="image" placeholder="image url">
+
+                    <div class="button-div">
+                        <button type="submit" class="save-button" id="save-post-button">Save</button>
+                    </div>
+                </form>
+                </div>
+              </div>
+        </div>
+    </section>
 
     <section class="posts-container">
         <h3>Popular Posts</h3>
