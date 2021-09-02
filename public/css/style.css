@@ -211,7 +211,7 @@ body{
   text-decoration: underline;
 }
 
-input[type=text], select {
+input[type=text], input[type=password], input[type=email], select {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -318,4 +318,8 @@ textarea {
 .button-div{
   display: flex;
   justify-content: flex-end;
+}
+
+#login-modal .modal-content, #signup-modal .modal-content{
+  width: 30%;
 }
