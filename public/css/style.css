@@ -335,3 +335,31 @@ textarea {
   display: flex;
   align-items: center;
 }
+
+.new-comment-div{
+  margin-top: 2rem;
+}
+
+.new-comment-div span{
+  color: #ff4500;
+  font-weight: 900;
+}
+
+.comments{
+  margin-top: 4rem;
+}
+
+.comment{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4rem;
+}
+
+.comment-user{
+  display: flex;
+  align-items: center;
+}
+
+.comment-text{
+  padding-left: 4rem;
+}

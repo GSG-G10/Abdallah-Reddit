@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="/images/logo.png" style="width: 8rem;" alt="">
+            </div>
+            <div class="auth-buttons" id="not-auth">
+                <button id="login-button">Log in</button>
+                <button id="signup-button">Sign UP</button>
+            </div>
+            <div class="auth-buttons" id="auth">
+                <button id="new-post-button">New Post</button>
+                <div class="dropdown">
+                    <div class="dropbtn">
+                        <img src="/images/avatar.png"> <span>Abdallah</span>
+                    </div>
+                    <div class="dropdown-content">
+                      <a href="#"><i class="fas fa-user"></i> Profile</a>
+                      <hr>
+                      <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div id="new-post-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h2>Add New Post</h2>
+                  <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                <form action="/post/create" method="POST">
+    
+                    <label for="">Title</label>
+                    <input type="text" name="title" placeholder="title">
+    
+                    <label>Post</label>
+                    <textarea name="body" id="" cols="30" rows="10"></textarea>
+        
+                    <label for="">Image</label>
+                    <input type="text" name="image" placeholder="image url">
+
+                    <div class="button-div">
+                        <button type="submit" class="save-button" id="save-post-button">Save</button>
+                    </div>
+                </form>
+                </div>
+              </div>
+        </div>
+
+        <div id="login-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h2>Login</h2>
+                  <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                <form action="/post/create" method="POST">
+    
+                    <label for="">Username</label>
+                    <input type="text" name="username" placeholder="username">
+    
+                    <label for="">Password</label>
+                    <input type="password" name="password" placeholder="password">
+
+                    <div class="button-div">
+                        <button type="submit" class="save-button" id="save-login-button">login</button>
+                    </div>
+                </form>
+                </div>
+              </div>
+        </div>
+
+        <div id="signup-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h2>Signup</h2>
+                  <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                <form action="/post/create" method="POST">
+    
+                    <label for="">Name</label>
+                    <input type="text" name="name" placeholder="Name">
+
+                    <label for="">Username</label>
+                    <input type="text" name="username" placeholder="username">
+
+                    <label for="">Email</label>
+                    <input type="email" name="email" placeholder="email">
+
+                    <label for="">Password</label>
+                    <input type="password" name="password" placeholder="password">
+
+                    <label for="">Confirm Password</label>
+                    <input type="password" name="confirmedPassword" placeholder="confirm password">
+
+                    <div class="button-div">
+                        <button type="submit" class="save-button" id="save-signup-button">Sign Up</button>
+                    </div>
+                </form>
+                </div>
+              </div>
+        </div>
+    </section>
+
+    <section class="posts-container">
+        <div class="posts">
+            <div class="post">
+                <div class="left">
+                    <span><a href="#"><i class="fas fa-arrow-up"></i></a></span>
+                    <span class="votes">45.3k</span>
+                    <span><a href="#"><i class="fas fa-arrow-down"></i></a></span>
+                </div>
+                <div class="right">
+                    <div class="user">
+                        <div class="user-image"><img src="/images/avatar.png"></div>
+                        <div class="user-name">
+                            <p>Abdallah</p>
+                            <span>3 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="post-body">
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus fugit reiciendis aliquam dolor inventore nemo possimus, architecto sint eligendi culpa suscipit ipsum esse nam impedit minus cupiditate, veritatis aperiam sed.</p>
+                        <div class="post-image">
+                            <img src="/images/1.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="post-comments">
+                        <a href="#"><i class="fas fa-comments"></i> 3 Comments</a>
+                        <div class="new-comment-div">
+                            <form action="">
+                                <p>Comment as <span>aaamra</span></p>
+                                <textarea name="body" placeholder="What are your thoughts?" cols="30" rows="10"></textarea>
+
+                                <div class="button-div">
+                                    <button type="submit" class="save-button" style="margin-top: 0;">Comment</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="comments">
+                            <div class="comment">
+                                <div class="comment-user">
+                                    <div class="user-image"><img src="/images/avatar.png"></div>
+                                    <div class="user-name">
+                                        <p>Abdallah</p>
+                                        <span>3 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="comment-text">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus doloribus ipsa odio aliquam asperiores consequatur iure itaque fuga repellendus ipsam sit nulla et quasi, provident, earum illum qui consectetur expedita?</p>
+                                </div>
+                            </div>
+
+                            <div class="comment">
+                                <div class="comment-user">
+                                    <div class="user-image"><img src="/images/avatar.png"></div>
+                                    <div class="user-name">
+                                        <p>Abdallah</p>
+                                        <span>3 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="comment-text">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus doloribus ipsa odio aliquam asperiores consequatur iure itaque fuga repellendus ipsam sit nulla et quasi, provident, earum illum qui consectetur expedita?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
