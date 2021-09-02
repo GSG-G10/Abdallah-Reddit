@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const saveLoginButton = document.querySelector('#save-login-button');
 
@@ -27,3 +28,14 @@ saveSignUpButton.addEventListener('click', (e) => {
     name, email, username, password, confirmedPassword,
   });
 });
+
+const isAuth = () => {
+  const cookies = document.cookie;
+  if (cookies) {
+    if (cookies.split('=')[0] === 'accessToken') {
+      return true;
+    }
+  }
+
+  return false;
+};

@@ -5,10 +5,10 @@ const getPostsQuery = () => connection.query(
 );
 
 const addPostQuery = ({
-  title, body, userId, createdAt,
+  title, body, userId, createdAt, image,
 }) => connection.query(
-  'INSERT INTO posts (title, body, user_id, created_at) VALUES ($1, $2, $3, $4) RETURNING *',
-  [title, body, userId, createdAt],
+  'INSERT INTO posts (title, body, user_id, created_at, image) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+  [title, body, userId, createdAt, image],
 );
 
 const likePostQuery = (postId) => connection.query(

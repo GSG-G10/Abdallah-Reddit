@@ -22,10 +22,14 @@ const index = (req, res) => {
 const store = (req, res) => {
   const userId = req.user.id;
 
-  const { title, body, createdAt } = req.body;
+  const {
+    title, body, createdAt, image,
+  } = req.body;
 
   // validate post
-  postSchema.validateAsync({ title, body, createdAt })
+  postSchema.validateAsync({
+    title, body, createdAt, image,
+  })
     .catch((err) => {
       // validation error
       res.status(422).json({
@@ -35,7 +39,7 @@ const store = (req, res) => {
     })
     // add post query
     .then(() => addPostQuery({
-      title, body, userId, createdAt,
+      title, body, userId, createdAt, image,
     }))
     .then((data) => {
       res.json({

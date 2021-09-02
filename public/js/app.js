@@ -16,17 +16,6 @@ const closeModalButtons = document.getElementsByClassName('close');
 const notAuthDiv = document.querySelector('#not-auth');
 const authDiv = document.querySelector('#auth');
 
-const isAuth = () => {
-  const cookies = document.cookie;
-  if (cookies) {
-    if (cookies.split('=')[0] === 'accessToken') {
-      return true;
-    }
-  }
-
-  return false;
-};
-
 if (isAuth()) {
   notAuthDiv.style.display = 'none';
   authDiv.style.display = 'flex';
@@ -93,6 +82,8 @@ const postRequest = (url, data) => fetch(url, {
       swal('validation error !', res.msg, 'error');
     } else if (res.status === 500) {
       swal('server error !', 'some thing went wrong please try again', 'error');
+    } else if (res.status === 401) {
+      swal('Warning !', res.msg, 'warning');
     }
 
     return res;

@@ -15,6 +15,7 @@ CREATE TABLE posts(
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     body text NOT NULL,
+    image text,
     likes INTEGER NOT NULL DEFAULT 0,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     created_at TIMESTAMP NOT NULL

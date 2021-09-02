@@ -20,7 +20,7 @@ const logIn = (req, res) => {
       .then((data) => data.rows[0])
       .then((user) => {
         if (!user) {
-          res.status(401).json({ msg: 'Your Credintals does not match our records' });
+          res.status(401).json({ msg: 'Your Credentials does not match our records', status: 401 });
         }
 
         compare(password, user.password, (err, result) => {
@@ -34,7 +34,7 @@ const logIn = (req, res) => {
           }
 
           if (!result) {
-            res.status(401).json({ msg: 'Your Credintals does not match our records' });
+            res.status(401).json({ msg: 'Your Credentials does not match our records', status: 401 });
           } else {
             sign(
               {

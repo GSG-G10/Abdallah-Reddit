@@ -6,11 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reddit</title>
 
+    <link rel="shortcut icon" href="https://www.reddiquette.com/wp-content/uploads/2020/09/What-Is-The-Reddit-Logo-Called.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/style.css">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <header class="header">
@@ -49,13 +54,13 @@
                 <form action="/post/create" method="POST">
     
                     <label for="">Title</label>
-                    <input type="text" name="title" placeholder="title">
+                    <input type="text" name="title" id="post-title" placeholder="title">
     
                     <label>Post</label>
-                    <textarea name="body" id="" cols="30" rows="10"></textarea>
+                    <textarea name="body" id="post-body" cols="30" rows="10"></textarea>
         
                     <label for="">Image</label>
-                    <input type="text" name="image" placeholder="image url">
+                    <input type="text" name="image" id="post-image" placeholder="image url">
 
                     <div class="button-div">
                         <button type="submit" class="save-button" id="save-post-button">Save</button>
@@ -188,6 +193,8 @@
         </div>
     </section>
 
+    <script src="/js/auth.js"></script>
+    <script src="/js/posts.js"></script>
     <script src="/js/app.js"></script>
 </body>
 </html>
