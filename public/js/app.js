@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 // modal divs
 const newPostModal = document.querySelector('#new-post-modal');
 const loginModal = document.querySelector('#login-modal');
@@ -69,3 +71,29 @@ for (const button of closeModalButtons) {
     }
   });
 }
+
+const postRequest = (url, data) => fetch(url, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  redirect: 'follow',
+  body: JSON.stringify(data),
+})
+  .then((response) => {
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+
+    return response;
+  })
+  .then((res) => res.json())
+  .then((res) => {
+    if (res.status === 422) {
+      swal('validation error !', res.msg, 'error');
+    } else if (res.status === 500) {
+      swal('server error !', 'some thing went wrong please try again', 'error');
+    }
+
+    return res;
+  });
