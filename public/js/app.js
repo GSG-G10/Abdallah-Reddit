@@ -1,11 +1,39 @@
+// modal divs
 const newPostModal = document.querySelector('#new-post-modal');
 const loginModal = document.querySelector('#login-modal');
 const signupModal = document.querySelector('#signup-modal');
+
+// modal buttons
 const newPostButton = document.querySelector('#new-post-button');
 const loginButton = document.querySelector('#login-button');
 const signupButton = document.querySelector('#signup-button');
+
+// close buttons
 const closeModalButtons = document.getElementsByClassName('close');
 
+const notAuthDiv = document.querySelector('#not-auth');
+const authDiv = document.querySelector('#auth');
+
+const isAuth = () => {
+  const cookies = document.cookie;
+  if (cookies) {
+    if (cookies.split('=')[0] === 'accessToken') {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+if (isAuth()) {
+  notAuthDiv.style.display = 'none';
+  authDiv.style.display = 'flex';
+} else {
+  notAuthDiv.style.display = 'block';
+  authDiv.style.display = 'none';
+}
+
+// click away
 window.addEventListener('click', (event) => {
   if (event.target === newPostModal) {
     newPostModal.style.display = 'none';
@@ -41,11 +69,3 @@ for (const button of closeModalButtons) {
     }
   });
 }
-
-// closeModalButtons.forEach((button) => {
-
-// });
-// closeModalButton.addEventListener('click', (event) => {
-//   newPostModal.style.display = 'none';
-//   loginModal.style.display = 'none';
-// });

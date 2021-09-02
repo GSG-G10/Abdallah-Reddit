@@ -323,3 +323,15 @@ textarea {
 #login-modal .modal-content, #signup-modal .modal-content{
   width: 30%;
 }
+
+.profile-container{
+  max-width: 900px;
+  margin: 1rem auto;
+}
+
+
+.user-profile{
+  margin-top: -20px;
+  display: flex;
+  align-items: center;
+}
