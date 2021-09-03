@@ -1,7 +1,14 @@
 const connection = require('../config/connection');
 
 const getPostsQuery = () => connection.query(
-  'SELECT p.id, p.title, p.body, p.likes, p.created_at, u.name, u.username FROM posts p INNER JOIN users u ON u.id = p.user_id ORDER BY p.likes DESC',
+  `SELECT p.id, p.title, p.body, p.created_at, u.name, u.username, u.id as user_id , count(v.post_id) as votes_number FROM posts p
+   INNER JOIN users u
+    ON u.id = p.user_id 
+   INNER JOIN votes v 
+   ON v.post_id = p.id
+   group by p.id, u.name, u.username, u.id
+   ORDER BY votes_number desc
+   `,
 );
 
 const addPostQuery = ({
@@ -11,9 +18,9 @@ const addPostQuery = ({
   [title, body, userId, createdAt, image],
 );
 
-const likePostQuery = (postId) => connection.query(
-  'UPDATE posts SET likes = likes + 1 WHERE id = $1 RETURNING *',
-  [postId],
+const likePostQuery = ({ postId, userId, vote }) => connection.query(
+  'INSERT INTO votes (post_id,user_id, vote) values ($1,$2,$3) ON CONFLICT (post_id, user_id) DO UPDATE SET vote = $3 RETURNING *',
+  [postId, userId, vote],
 );
 
 const deletePostQuery = (postId) => connection.query(

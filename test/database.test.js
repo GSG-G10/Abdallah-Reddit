@@ -47,9 +47,15 @@ describe('testing posts queries', () => {
       expect(data.rows[0].title).toBe(insertedPost.title);
     });
   });
-
-  test('like post', () => likePostQuery(1).then((data) => {
-    expect(data.rows[0].likes).toBe(1);
+  const vote = {
+    postId: 1,
+    userId: 1,
+    vote: true,
+  };
+  test('vote post', () => likePostQuery(vote).then((data) => {
+    expect(data.rows[0].user_id).toBe(vote.userId);
+    expect(data.rows[0].post_id).toBe(vote.postId);
+    expect(data.rows[0].vote).toBe(vote.vote);
   }));
 });
 

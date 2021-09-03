@@ -71,7 +71,11 @@ const postRequest = (url, data) => fetch(url, {
 })
   .then((response) => {
     if (response.redirected) {
-      window.location.href = response.url;
+      if (response.url.includes('login')) {
+        loginModal.style.display = 'block';
+      } else {
+        window.location.href = response.url;
+      }
     }
 
     return response;
