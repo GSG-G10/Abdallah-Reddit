@@ -39,3 +39,21 @@ const isAuth = () => {
 
   return false;
 };
+
+let authUser = {};
+
+if (isAuth()) {
+  const logoutButton = document.getElementById('logout');
+  logoutButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    postRequest('/auth/logout', []);
+  });
+
+  fetch('/auth/user')
+    .then((data) => data.json())
+    .then((user) => {
+      const profileButton = document.getElementById('profile-link');
+      profileButton.href = `/profile/${user.id}`;
+      authUser = user;
+    });
+}
