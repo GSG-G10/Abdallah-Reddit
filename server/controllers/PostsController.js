@@ -30,13 +30,6 @@ const store = (req, res) => {
   postSchema.validateAsync({
     title, body, createdAt, image,
   })
-    .catch((err) => {
-      // validation error
-      res.status(422).json({
-        msg: err.details[0].message,
-        status: 422,
-      });
-    })
     // add post query
     .then(() => addPostQuery({
       title, body, userId, createdAt, image,
@@ -48,13 +41,20 @@ const store = (req, res) => {
         status: 200,
       });
     })
-    .catch(() => {
-      res.status(500).json(
-        {
-          msg: 'Internal Server Error',
-          status: 500,
-        },
-      );
+    .catch((err) => {
+      if (err.details) {
+        res.status(422).json({
+          msg: err.details[0].message,
+          status: 422,
+        });
+      } else {
+        res.status(500).json(
+          {
+            msg: 'Internal Server Error',
+            status: 500,
+          },
+        );
+      }
     });
 };
 
