@@ -24,6 +24,16 @@ savePostButton.addEventListener('click', (e) => {
   });
 });
 
+const votePost = (postId, vote) => {
+  putRequest(`/api/posts/${postId}/vote`, { vote })
+    .then((data) => {
+      swal('Success !', data.msg, 'success');
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 3000);
+    });
+};
+
 const showSinglePost = (post) => {
   const upvote = document.createElement('a');
   upvote.href = '#';
@@ -31,6 +41,7 @@ const showSinglePost = (post) => {
   upvote.addEventListener('click', (e) => {
     e.preventDefault();
     // upvote post
+    votePost(post.id, true);
   });
 
   const votesNumber = document.createElement('span');
@@ -43,6 +54,18 @@ const showSinglePost = (post) => {
   downvote.addEventListener('click', (e) => {
     e.preventDefault();
     // downvote post
+    votePost(post.id, false);
+  });
+
+  // show voted post
+  userVotes.forEach((vote) => {
+    if (vote.post_id === post.id) {
+      if (vote.vote) {
+        upvote.style.background = '#ff4500';
+      } else {
+        downvote.style.background = '#7193ff';
+      }
+    }
   });
 
   const left = document.createElement('div');
@@ -58,6 +81,9 @@ const showSinglePost = (post) => {
 
   const userP = document.createElement('p');
   userP.textContent = post.name;
+  userP.addEventListener('click', () => {
+    window.location.href = `/profile/${post.user_id}`;
+  });
 
   const postTime = document.createElement('span');
   postTime.textContent = moment(post.created_at).fromNow();

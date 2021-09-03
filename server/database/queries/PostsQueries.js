@@ -44,10 +44,14 @@ const getUserPosts = (userId) => connection.query(
    `,
   [userId],
 );
+
+const getUserVotes = (userId) => connection.query('SELECT * FROM votes where user_id = $1', [userId]);
+
 module.exports = {
   getPostsQuery,
   addPostQuery,
   deletePostQuery,
   likePostQuery,
   getUserPosts,
+  getUserVotes,
 };

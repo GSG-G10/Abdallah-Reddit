@@ -11,5 +11,6 @@ router.post('/signup', isNotAuth, AuthController.signUp);
 router.post('/logout', isAuth, AuthController.logOut);
 
 router.get('/user', isAuth, UsersController.user);
+router.get('/user/votes', isAuth, UsersController.votes);
 
 module.exports = router;

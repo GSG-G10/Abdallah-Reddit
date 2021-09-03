@@ -8,7 +8,7 @@ const isAuth = require('../middlewares/isAuth');
 
 router.get('/posts', PostsController.index);
 router.post('/posts', isAuth, PostsController.store);
-router.put('/posts/:postId/like', isAuth, PostsController.like);
+router.put('/posts/:postId/vote', isAuth, PostsController.votePost);
 router.delete('/posts/:postId', isAuth, PostsController.destroy);
 
 router.get('/posts/:postId/comments', CommentsController.index);

@@ -41,6 +41,7 @@ const isAuth = () => {
 };
 
 let authUser = {};
+let userVotes = [];
 
 if (isAuth()) {
   const logoutButton = document.getElementById('logout');
@@ -54,6 +55,16 @@ if (isAuth()) {
     .then((user) => {
       const profileButton = document.getElementById('profile-link');
       profileButton.href = `/profile/${user.id}`;
+
+      const dropName = document.getElementById('drop-name');
+      dropName.textContent = user.name;
+
       authUser = user;
+    });
+
+  fetch('/auth/user/votes')
+    .then((data) => data.json())
+    .then((votes) => {
+      userVotes = votes;
     });
 }

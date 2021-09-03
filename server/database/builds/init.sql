@@ -38,7 +38,7 @@ CREATE TABLE comments(
 
 INSERT INTO users (name, username, email, password) values
 ('Abdallah Ahmed', 'aaamra', 'dev.aaamra@gmail.com', '$2a$10$QNvMoLQnY2268uT8z.0Ad.K/DmO6YTYFHwjUaf1u2yzuKEPwbHMTu'),
-('Abdallah Ahmed', 'aaamra23', 'dev23.aaamra@gmail.com', '$2a$10$QNvMoLQnY2268uT8z.0Ad.K/DmO6YTYFHwjUaf1u2yzuKEPwbHMTu');
+('Ahmed', 'aaamra23', 'dev23.aaamra@gmail.com', '$2a$10$QNvMoLQnY2268uT8z.0Ad.K/DmO6YTYFHwjUaf1u2yzuKEPwbHMTu');
 
 INSERT INTO posts (title, body, user_id, created_at) values 
 ('test title', 'test body', 1, 'NOW()'),

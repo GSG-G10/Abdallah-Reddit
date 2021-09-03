@@ -58,15 +58,17 @@ const store = (req, res) => {
     });
 };
 
-const like = (req, res) => {
-  const postId = req.params;
+const votePost = (req, res) => {
+  const { postId } = req.params;
+  const userId = req.user.id;
+  const { vote } = req.body;
 
-  likePostQuery(postId)
+  likePostQuery({ postId, userId, vote })
     .then((data) => {
       if (data.rows[0]) {
         res.json({
           data: data.rows[0],
-          msg: 'like sent successfully !',
+          msg: 'vote sent successfully !',
           status: 200,
         });
       } else {
@@ -76,7 +78,8 @@ const like = (req, res) => {
         });
       }
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       res.status(500).json(
         {
           msg: 'Internal Server Error',
@@ -118,5 +121,5 @@ module.exports = {
   index,
   store,
   destroy,
-  like,
+  votePost,
 };
