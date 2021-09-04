@@ -170,7 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch(`/api/posts/${postId}/comments`)
     .then((res) => res.json())
     .then((res) => {
-      postComments.innerHTML = `<i class="fas fa-comments"></i> ${res.length} ${res.length == 1 ? 'comment' : 'comments'}`;
       commentsDiv.textContent = '';
 
       res.forEach((comment) => {
