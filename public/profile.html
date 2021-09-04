@@ -4,19 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Reddit</title>
+
+    <link rel="shortcut icon" href="https://www.reddiquette.com/wp-content/uploads/2020/09/What-Is-The-Reddit-Logo-Called.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/style.css">
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <header class="header">
         <div class="header-container">
             <div class="logo">
-                <img src="/images/logo.png" style="width: 8rem;" alt="">
+                <a href="/"><img src="/images/logo.png" style="width: 8rem;" alt=""></a>
             </div>
             <div class="auth-buttons" id="not-auth">
                 <button id="login-button">Log in</button>
@@ -26,12 +31,12 @@
                 <button id="new-post-button">New Post</button>
                 <div class="dropdown">
                     <div class="dropbtn">
-                        <img src="/images/avatar.png"> <span>Abdallah</span>
+                        <img src="/images/avatar.png"> <span id="drop-name">Abdallah</span>
                     </div>
                     <div class="dropdown-content">
-                      <a href="#"><i class="fas fa-user"></i> Profile</a>
+                      <a href="#" id="profile-link"><i class="fas fa-user"></i> Profile</a>
                       <hr>
-                      <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                      <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                   </div>
             </div>
@@ -44,8 +49,8 @@
             <div class="user-profile">
                 <div class="user-image"><img src="/images/avatar.png"></div>
                 <div class="user-name">
-                    <p>Abdallah</p>
-                    <span>aaamra</span>
+                    <p id="profile-name">Abdallah</p>
+                    <span id="profile-username">aaamra</span>
                 </div>
             </div>
         </div>
@@ -62,13 +67,13 @@
                 <form action="/post/create" method="POST">
     
                     <label for="">Title</label>
-                    <input type="text" name="title" placeholder="title">
+                    <input type="text" name="title" id="post-title" placeholder="title">
     
                     <label>Post</label>
-                    <textarea name="body" id="" cols="30" rows="10"></textarea>
+                    <textarea name="body" id="post-body" cols="30" rows="10"></textarea>
         
                     <label for="">Image</label>
-                    <input type="text" name="image" placeholder="image url">
+                    <input type="text" name="image" id="post-image" placeholder="image url">
 
                     <div class="button-div">
                         <button type="submit" class="save-button" id="save-post-button">Save</button>
@@ -85,13 +90,13 @@
                   <span class="close">&times;</span>
                 </div>
                 <div class="modal-body">
-                <form action="/post/create" method="POST">
+                <form action="" method="POST">
     
                     <label for="">Username</label>
-                    <input type="text" name="username" placeholder="username">
+                    <input type="text" name="username" id="login-username" placeholder="username">
     
                     <label for="">Password</label>
-                    <input type="password" name="password" placeholder="password">
+                    <input type="password" name="password" id="login-password" placeholder="password">
 
                     <div class="button-div">
                         <button type="submit" class="save-button" id="save-login-button">login</button>
@@ -108,22 +113,22 @@
                   <span class="close">&times;</span>
                 </div>
                 <div class="modal-body">
-                <form action="/post/create" method="POST">
+                <form action="" method="POST">
     
                     <label for="">Name</label>
-                    <input type="text" name="name" placeholder="Name">
+                    <input type="text" name="name" id="signup-name" placeholder="Name">
 
                     <label for="">Username</label>
-                    <input type="text" name="username" placeholder="username">
+                    <input type="text" name="username" id="signup-username" placeholder="username">
 
                     <label for="">Email</label>
-                    <input type="email" name="email" placeholder="email">
+                    <input type="email" name="email" id="signup-email" placeholder="email">
 
                     <label for="">Password</label>
-                    <input type="password" name="password" placeholder="password">
+                    <input type="password" name="password" id="signup-password" placeholder="password">
 
                     <label for="">Confirm Password</label>
-                    <input type="password" name="confirmedPassword" placeholder="confirm password">
+                    <input type="password" name="confirmedPassword" id="signup-confirmedPassword" placeholder="confirm password">
 
                     <div class="button-div">
                         <button type="submit" class="save-button" id="save-signup-button">Sign Up</button>
@@ -136,59 +141,12 @@
 
     <section class="posts-container">
         <div class="posts">
-            <div class="post">
-                <div class="left">
-                    <span><a href="#"><i class="fas fa-arrow-up"></i></a></span>
-                    <span class="votes">45.3k</span>
-                    <span><a href="#"><i class="fas fa-arrow-down"></i></a></span>
-                </div>
-                <div class="right">
-                    <div class="user">
-                        <div class="user-image"><img src="/images/avatar.png"></div>
-                        <div class="user-name">
-                            <p>Abdallah</p>
-                            <span>3 hours ago</span>
-                        </div>
-                    </div>
-                    <div class="post-body">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus fugit reiciendis aliquam dolor inventore nemo possimus, architecto sint eligendi culpa suscipit ipsum esse nam impedit minus cupiditate, veritatis aperiam sed.</p>
-                        <div class="post-image">
-                            <img src="/images/1.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="post-comments">
-                        <a href="#"><i class="fas fa-comments"></i> 3 Comments</a>
-                    </div>
-                </div>
-            </div>
-            <div class="post">
-                <div class="left">
-                    <span><a href="#"><i class="fas fa-arrow-up"></i></a></span>
-                    <span class="votes">45.3k</span>
-                    <span><a href="#"><i class="fas fa-arrow-down"></i></a></span>
-                </div>
-                <div class="right">
-                    <div class="user">
-                        <div class="user-image"><img src="/images/avatar.png"></div>
-                        <div class="user-name">
-                            <p>Abdallah</p>
-                            <span>3 hours ago</span>
-                        </div>
-                    </div>
-                    <div class="post-body">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus fugit reiciendis aliquam dolor inventore nemo possimus, architecto sint eligendi culpa suscipit ipsum esse nam impedit minus cupiditate, veritatis aperiam sed.</p>
-                        <div class="post-image">
-                            <img src="/images/1.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="post-comments">
-                        <a href="#"><i class="fas fa-comments"></i> 3 Comments</a>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </section>
 
+    <script src="/js/auth.js"></script>
+    <script src="/js/posts.js"></script>
     <script src="/js/app.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 const {
-  getPostsQuery, addPostQuery, deletePostQuery, likePostQuery,
+  getPostsQuery, addPostQuery, deletePostQuery, likePostQuery, getSinglePostQuery,
 } = require('../database/queries/PostsQueries');
 
 const postSchema = require('../schemas/addPostSchema');
@@ -22,20 +22,17 @@ const index = (req, res) => {
 const store = (req, res) => {
   const userId = req.user.id;
 
-  const { title, body, createdAt } = req.body;
+  const {
+    title, body, createdAt, image,
+  } = req.body;
 
   // validate post
-  postSchema.validateAsync({ title, body, createdAt })
-    .catch((err) => {
-      // validation error
-      res.status(422).json({
-        msg: err.details[0].message,
-        status: 422,
-      });
-    })
+  postSchema.validateAsync({
+    title, body, createdAt, image,
+  })
     // add post query
     .then(() => addPostQuery({
-      title, body, userId, createdAt,
+      title, body, userId, createdAt, image,
     }))
     .then((data) => {
       res.json({
@@ -43,6 +40,38 @@ const store = (req, res) => {
         msg: 'post created successfully !',
         status: 200,
       });
+    })
+    .catch((err) => {
+      if (err.details) {
+        res.status(422).json({
+          msg: err.details[0].message,
+          status: 422,
+        });
+      } else {
+        res.status(500).json(
+          {
+            msg: 'Internal Server Error',
+            status: 500,
+          },
+        );
+      }
+    });
+};
+
+const show = (req, res) => {
+  const { postId } = req.params;
+
+  getSinglePostQuery(postId)
+    .then((data) => data.rows[0])
+    .then((data) => {
+      if (data) {
+        res.json(data);
+      } else {
+        res.status(404).json({
+          msg: 'post not found !',
+          status: 404,
+        });
+      }
     })
     .catch(() => {
       res.status(500).json(
@@ -54,15 +83,17 @@ const store = (req, res) => {
     });
 };
 
-const like = (req, res) => {
-  const postId = req.params;
+const votePost = (req, res) => {
+  const { postId } = req.params;
+  const userId = req.user.id;
+  const { vote } = req.body;
 
-  likePostQuery(postId)
+  likePostQuery({ postId, userId, vote })
     .then((data) => {
       if (data.rows[0]) {
         res.json({
           data: data.rows[0],
-          msg: 'like sent successfully !',
+          msg: 'vote sent successfully !',
           status: 200,
         });
       } else {
@@ -83,7 +114,7 @@ const like = (req, res) => {
 };
 
 const destroy = (req, res) => {
-  const postId = req.params;
+  const { postId } = req.params;
 
   deletePostQuery(postId)
     .then((data) => {
@@ -114,5 +145,6 @@ module.exports = {
   index,
   store,
   destroy,
-  like,
+  votePost,
+  show,
 };

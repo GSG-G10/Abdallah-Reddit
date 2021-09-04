@@ -25,24 +25,29 @@ const store = (req, res) => {
 
   // validation
   commentSchema.validateAsync({ body, postId, createdAt })
-    .catch((err) => {
-    // validation error
-      res.status(422).json({
-        msg: err.details[0].message,
-        status: 422,
-      });
-    }).then(() => addCommentQuery({
+    .then(() => addCommentQuery({
       body, userId, postId, createdAt,
     }))
     .then((data) => data.rows[0])
-    .then((comment) => res.json(comment))
-    .catch(() => {
-      res.status(500).json(
-        {
-          msg: 'Internal Server Error',
-          status: 500,
-        },
-      );
+    .then((comment) => res.json({
+      status: 200,
+      comment,
+      msg: 'comment save successfully',
+    }))
+    .catch((err) => {
+      if (err.details) {
+        res.status(422).json({
+          msg: err.details[0].message,
+          status: 422,
+        });
+      } else {
+        res.status(500).json(
+          {
+            msg: 'Internal Server Error',
+            status: 500,
+          },
+        );
+      }
     });
 };
 

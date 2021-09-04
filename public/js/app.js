@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 // modal divs
 const newPostModal = document.querySelector('#new-post-modal');
 const loginModal = document.querySelector('#login-modal');
@@ -13,17 +15,6 @@ const closeModalButtons = document.getElementsByClassName('close');
 
 const notAuthDiv = document.querySelector('#not-auth');
 const authDiv = document.querySelector('#auth');
-
-const isAuth = () => {
-  const cookies = document.cookie;
-  if (cookies) {
-    if (cookies.split('=')[0] === 'accessToken') {
-      return true;
-    }
-  }
-
-  return false;
-};
 
 if (isAuth()) {
   notAuthDiv.style.display = 'none';
@@ -69,3 +60,99 @@ for (const button of closeModalButtons) {
     }
   });
 }
+
+const postRequest = (url, data) => fetch(url, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  redirect: 'follow',
+  body: JSON.stringify(data),
+})
+  .then((response) => {
+    if (response.redirected) {
+      if (response.url.includes('login')) {
+        loginModal.style.display = 'block';
+      } else {
+        window.location.href = response.url;
+      }
+    }
+
+    return response;
+  })
+  .then((res) => res.json())
+  .then((res) => {
+    if (res.status === 422) {
+      swal('validation error !', res.msg, 'error');
+    } else if (res.status === 500) {
+      swal('server error !', 'some thing went wrong please try again', 'error');
+    } else if (res.status === 401) {
+      swal('Warning !', res.msg, 'warning');
+    }
+
+    return res;
+  });
+
+const putRequest = (url, data) => fetch(url, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  redirect: 'follow',
+  body: JSON.stringify(data),
+})
+  .then((response) => {
+    if (response.redirected) {
+      if (response.url.includes('login')) {
+        loginModal.style.display = 'block';
+      } else {
+        window.location.href = response.url;
+      }
+    }
+
+    return response;
+  })
+  .then((res) => res.json())
+  .then((res) => {
+    if (res.status === 422) {
+      swal('validation error !', res.msg, 'error');
+    } else if (res.status === 500) {
+      swal('server error !', 'some thing went wrong please try again', 'error');
+    } else if (res.status === 401) {
+      swal('Warning !', res.msg, 'warning');
+    }
+
+    return res;
+  });
+
+const deleteRequest = (url, data) => fetch(url, {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  redirect: 'follow',
+  body: JSON.stringify(data),
+})
+  .then((response) => {
+    if (response.redirected) {
+      if (response.url.includes('login')) {
+        loginModal.style.display = 'block';
+      } else {
+        window.location.href = response.url;
+      }
+    }
+
+    return response;
+  })
+  .then((res) => res.json())
+  .then((res) => {
+    if (res.status === 422) {
+      swal('validation error !', res.msg, 'error');
+    } else if (res.status === 500) {
+      swal('server error !', 'some thing went wrong please try again', 'error');
+    } else if (res.status === 401) {
+      swal('Warning !', res.msg, 'warning');
+    }
+
+    return res;
+  });
