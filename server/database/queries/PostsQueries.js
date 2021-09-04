@@ -13,6 +13,30 @@ const getPostsQuery = () => connection.query(
    `,
 );
 
+const getSinglePostQuery = (postId) => connection.query(`
+SELECT 
+    p.id,
+    p.title,
+    p.body,
+    p.image,
+    p.created_at,
+    u.name,
+    u.username,
+    u.id as user_id,
+    count(c.id) as comments,
+    count(v.post_id) as votes_number
+      FROM posts p
+   INNER JOIN users u
+    ON u.id = p.user_id 
+    LEFT JOIN comments c
+    ON c.post_id = p.id
+    LEFT JOIN votes v 
+    ON v.post_id = p.id
+   where p.id = $1
+   group by p.id, u.name, u.username, u.id
+   ORDER BY votes_number desc
+`, [postId]);
+
 const addPostQuery = ({
   title, body, userId, createdAt, image,
 }) => connection.query(
@@ -54,4 +78,5 @@ module.exports = {
   likePostQuery,
   getUserPosts,
   getUserVotes,
+  getSinglePostQuery,
 };

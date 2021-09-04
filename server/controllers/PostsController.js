@@ -1,5 +1,5 @@
 const {
-  getPostsQuery, addPostQuery, deletePostQuery, likePostQuery,
+  getPostsQuery, addPostQuery, deletePostQuery, likePostQuery, getSinglePostQuery,
 } = require('../database/queries/PostsQueries');
 
 const postSchema = require('../schemas/addPostSchema');
@@ -58,6 +58,31 @@ const store = (req, res) => {
     });
 };
 
+const show = (req, res) => {
+  const { postId } = req.params;
+
+  getSinglePostQuery(postId)
+    .then((data) => data.rows[0])
+    .then((data) => {
+      if (data) {
+        res.json(data);
+      } else {
+        res.status(404).json({
+          msg: 'post not found !',
+          status: 404,
+        });
+      }
+    })
+    .catch(() => {
+      res.status(500).json(
+        {
+          msg: 'Internal Server Error',
+          status: 500,
+        },
+      );
+    });
+};
+
 const votePost = (req, res) => {
   const { postId } = req.params;
   const userId = req.user.id;
@@ -78,8 +103,7 @@ const votePost = (req, res) => {
         });
       }
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
       res.status(500).json(
         {
           msg: 'Internal Server Error',
@@ -122,4 +146,5 @@ module.exports = {
   store,
   destroy,
   votePost,
+  show,
 };

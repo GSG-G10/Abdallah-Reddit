@@ -1,3 +1,4 @@
+/* eslint-disable no-self-assign */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-undef */
 const savePostButton = document.querySelector('#save-post-button');
@@ -29,7 +30,7 @@ const votePost = (postId, vote) => {
     .then((data) => {
       swal('Success !', data.msg, 'success');
       setTimeout(() => {
-        window.location.href = '/';
+        window.location.href = window.location.href;
       }, 3000);
     });
 };

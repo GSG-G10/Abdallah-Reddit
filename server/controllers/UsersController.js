@@ -26,8 +26,7 @@ const votes = (req, res) => {
   getUserVotes(userId)
     .then((data) => data.rows)
     .then((data) => res.json(data))
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
       res.status(500).json(
         {
           msg: 'Internal Server Error',

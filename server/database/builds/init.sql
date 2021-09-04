@@ -47,6 +47,9 @@ INSERT INTO posts (title, body, user_id, created_at) values
 INSERT INTO votes (post_id, user_id, vote) values (1,1, 'true'), (1,2, 'false'), (2,2,'true');
 
 INSERT INTO comments (body, user_id, post_id, created_at) values 
-('text comment', 1, 1, 'NOW()');
+('text comment', 2, 1, 'NOW()'),
+('text comment2', 2, 2, 'NOW()'),
+('text comment3', 2, 2, 'NOW()'),
+('text comment4', 2, 1, 'NOW()');
 
 COMMIT;
