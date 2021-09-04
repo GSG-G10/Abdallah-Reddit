@@ -114,7 +114,7 @@ const votePost = (req, res) => {
 };
 
 const destroy = (req, res) => {
-  const postId = req.params;
+  const { postId } = req.params;
 
   deletePostQuery(postId)
     .then((data) => {

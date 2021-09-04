@@ -124,3 +124,35 @@ const putRequest = (url, data) => fetch(url, {
 
     return res;
   });
+
+const deleteRequest = (url, data) => fetch(url, {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  redirect: 'follow',
+  body: JSON.stringify(data),
+})
+  .then((response) => {
+    if (response.redirected) {
+      if (response.url.includes('login')) {
+        loginModal.style.display = 'block';
+      } else {
+        window.location.href = response.url;
+      }
+    }
+
+    return response;
+  })
+  .then((res) => res.json())
+  .then((res) => {
+    if (res.status === 422) {
+      swal('validation error !', res.msg, 'error');
+    } else if (res.status === 500) {
+      swal('server error !', 'some thing went wrong please try again', 'error');
+    } else if (res.status === 401) {
+      swal('Warning !', res.msg, 'warning');
+    }
+
+    return res;
+  });

@@ -4,6 +4,8 @@
 
 const commentsDiv = document.querySelector('.comments');
 const postComments = document.getElementById('post-comments');
+const deleteButton = document.getElementById('delete-button');
+let currentPost = {};
 
 const votePost = (postId, vote) => {
   putRequest(`/api/posts/${postId}/vote`, { vote })
@@ -16,12 +18,17 @@ const votePost = (postId, vote) => {
 };
 
 const showPost = (post) => {
+  currentPost = post;
   const postUserName = document.getElementById('post-user-name');
   const postCreatedAt = document.getElementById('post-createdAt');
   const postImageDiv = document.getElementById('post-image2');
   const postBody = document.getElementById('post-body2');
   const votesNumber = document.getElementById('votes-number');
   const commentUsername = document.getElementById('comment-username');
+
+  if (post.user_id == authUser.id) {
+    deleteButton.style.display = 'block';
+  }
 
   commentUsername.textContent = authUser.name;
   votesNumber.textContent = post.votes_number;
@@ -97,8 +104,38 @@ showComment = (comment) => {
 
 const saveComment = (commentData) => postRequest('/api/comments', commentData);
 
+const deletePost = (postId) => deleteRequest(`/api/posts/${postId}`, {});
+
 document.addEventListener('DOMContentLoaded', () => {
   const postId = document.location.pathname.split('/')[2];
+
+  deleteButton.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    if (currentPost.user_id === authUser.id) {
+      swal({
+        title: 'Are you sure?',
+        text: 'Once deleted, you will not be able to recover this post!',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((willDelete) => {
+          if (willDelete) {
+            deletePost(postId).then((data) => {
+              swal('Deleted !', data.msg, 'success');
+              setTimeout(() => {
+                window.location.href = '/';
+              }, 3000);
+            });
+          } else {
+            swal('Your post is safe!');
+          }
+        });
+    } else {
+      swal('What are you trying to do ?!', 'you are in the danger zone', 'warning');
+    }
+  });
 
   const saveCommentButton = document.getElementById('save-comment-button');
   const commentBodyInput = document.getElementById('comment-body-input');
