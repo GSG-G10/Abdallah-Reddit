@@ -37,19 +37,9 @@ CREATE TABLE comments(
 );
 
 INSERT INTO users (name, username, email, password) values
-('Abdallah Ahmed', 'aaamra', 'dev.aaamra@gmail.com', '$2a$10$QNvMoLQnY2268uT8z.0Ad.K/DmO6YTYFHwjUaf1u2yzuKEPwbHMTu'),
-('Ahmed', 'aaamra23', 'dev23.aaamra@gmail.com', '$2a$10$QNvMoLQnY2268uT8z.0Ad.K/DmO6YTYFHwjUaf1u2yzuKEPwbHMTu');
+('Abdallah Ahmed', 'aaamra', 'dev.aaamra@gmail.com', '$2a$10$QNvMoLQnY2268uT8z.0Ad.K/DmO6YTYFHwjUaf1u2yzuKEPwbHMTu');
 
 INSERT INTO posts (title, body, user_id, created_at) values 
-('test title', 'test body', 1, 'NOW()'),
-('test title2', 'test body2', 2, 'NOW()');
-
-INSERT INTO votes (post_id, user_id, vote) values (1,1, 'true'), (1,2, 'false'), (2,2,'true');
-
-INSERT INTO comments (body, user_id, post_id, created_at) values 
-('text comment', 2, 1, 'NOW()'),
-('text comment2', 2, 2, 'NOW()'),
-('text comment3', 2, 2, 'NOW()'),
-('text comment4', 2, 1, 'NOW()');
+('first post', 'hi every one this is my reddit clone app if you found any bug in this app please till me in the comments section i will fix it asap', 1, 'NOW()');
 
 COMMIT;
