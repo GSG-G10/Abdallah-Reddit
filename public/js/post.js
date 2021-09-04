@@ -95,8 +95,27 @@ showComment = (comment) => {
   commentsDiv.appendChild(commentDiv);
 };
 
+const saveComment = (commentData) => postRequest('/api/comments', commentData);
+
 document.addEventListener('DOMContentLoaded', () => {
   const postId = document.location.pathname.split('/')[2];
+
+  const saveCommentButton = document.getElementById('save-comment-button');
+  const commentBodyInput = document.getElementById('comment-body-input');
+
+  saveCommentButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const body = commentBodyInput.value;
+    const createdAt = moment().format();
+
+    saveComment({ body, postId, createdAt })
+      .then((data) => {
+        swal('Success !', data.msg, 'success');
+        setTimeout(() => {
+          window.location.href = window.location.href;
+        }, 3000);
+      });
+  });
 
   fetch(`/api/posts/${postId}`)
     .then((res) => res.json())

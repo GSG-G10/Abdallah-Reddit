@@ -14,7 +14,7 @@ router.delete('/posts/:postId', isAuth, PostsController.destroy);
 
 router.get('/posts/:postId/comments', CommentsController.index);
 router.post('/comments', isAuth, CommentsController.store);
-router.put('/comments/:postId/like', isAuth, CommentsController.like);
+// router.put('/comments/:postId/like', isAuth, CommentsController.like);
 
 router.get('/users/:userId/posts', UsersController.posts);
 

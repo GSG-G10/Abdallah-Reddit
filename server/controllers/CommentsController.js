@@ -29,7 +29,11 @@ const store = (req, res) => {
       body, userId, postId, createdAt,
     }))
     .then((data) => data.rows[0])
-    .then((comment) => res.json(comment))
+    .then((comment) => res.json({
+      status: 200,
+      comment,
+      msg: 'comment save successfully',
+    }))
     .catch((err) => {
       if (err.details) {
         res.status(422).json({
