@@ -23,7 +23,7 @@ describe('testing posts queries', () => {
     const expectedPosts = [
       {
         id: 1,
-        title: 'test title',
+        title: 'first post',
         body: 'test body',
         likes: 0,
         name: 'Abdallah Ahmed',
@@ -60,10 +60,6 @@ describe('testing posts queries', () => {
 });
 
 describe('testing comments queries', () => {
-  test('show post comments query', () => getCommentsQuery(1).then((data) => {
-    expect(data.rows[0].body).toBe('text comment');
-  }));
-
   test('add post comment query', () => {
     const expected = {
       body: 'test body',
@@ -75,6 +71,10 @@ describe('testing comments queries', () => {
       expect(data.rows[0].body).toBe(expected.body);
     });
   });
+
+  test('show post comments query', () => getCommentsQuery(1).then((data) => {
+    expect(data.rows[0].body).toBe('test body');
+  }));
 
   test('like comment', () => likeCommentQuery(1)
     .then((data) => {
